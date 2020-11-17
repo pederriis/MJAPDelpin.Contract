@@ -9,7 +9,7 @@ namespace MJAPDelpin.Contract.Edge.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrderQueryController : ControllerBase
     {
         // GET: api/Order
         [HttpGet]

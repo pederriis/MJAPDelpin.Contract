@@ -32,7 +32,7 @@ namespace MJAPDelpin.Contract.Edge
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "Ordrehalløj", 
+                    Title = "Ordrehalløj",  
                     Version = "v1"
                 });
             });
