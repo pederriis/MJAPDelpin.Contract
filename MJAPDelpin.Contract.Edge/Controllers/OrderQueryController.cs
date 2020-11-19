@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MJAPDelpin.Contract.Application.Interface;
+using MJAPDelpin.Contract.Domain.Models;
 
 namespace MJAPDelpin.Contract.Edge.Controllers
 {
@@ -11,11 +13,20 @@ namespace MJAPDelpin.Contract.Edge.Controllers
     [ApiController]
     public class OrderQueryController : ControllerBase
     {
+
+        IQueryService QueryService;
+
+        public OrderQueryController(IQueryService queryService)
+        {
+            QueryService = queryService;
+        }
+        
+
         // GET: api/Order
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<Order>Get()
         {
-            return new string[] { "value1", "value2" };
+            return QueryService.GetAllOrders();
         }
 
         // GET: api/Order/5
@@ -25,22 +36,6 @@ namespace MJAPDelpin.Contract.Edge.Controllers
             return "value";
         }
 
-        // POST: api/Order
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT: api/Order/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+      
     }
 }

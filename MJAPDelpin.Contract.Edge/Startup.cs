@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MJAPDelpin.Contract.Application.Infrastructure;
+using MJAPDelpin.Contract.Application.Interface;
+using MJAPDelpin.Contract.Application.Query;
 
 namespace MJAPDelpin.Contract.Edge
 {
@@ -36,6 +39,10 @@ namespace MJAPDelpin.Contract.Edge
                     Version = "v1"
                 });
             });
+               
+            services.AddScoped<IQueryService, QueryService>();
+               
+            services.AddScoped<IStorageQuery, StorageQuery>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
