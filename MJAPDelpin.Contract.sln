@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29911.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MJAPDelpin.Contract.Edge", "MJAPDelpin.Contract.Edge\MJAPDelpin.Contract.Edge.csproj", "{186174A1-5324-4DDE-A1B3-EF468674A473}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MJAPDelpin.Contract.Edge", "MJAPDelpin.Contract.Edge\MJAPDelpin.Contract.Edge.csproj", "{186174A1-5324-4DDE-A1B3-EF468674A473}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MJAPDelpin.Contract.Application", "MJAPDelpin.Contract.Application\MJAPDelpin.Contract.Application.csproj", "{52F747FE-1C3F-4677-B247-E79AC1C93896}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MJAPDelpin.Contract.Application", "MJAPDelpin.Contract.Application\MJAPDelpin.Contract.Application.csproj", "{52F747FE-1C3F-4677-B247-E79AC1C93896}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MJAPDelpin.Contract.Domain", "MJAPDelpin.Contract.Domain\MJAPDelpin.Contract.Domain.csproj", "{35DCA7CA-A23F-48E8-AD05-F6FCE4E6E3E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MJAPDelpin.Contract.Domain", "MJAPDelpin.Contract.Domain\MJAPDelpin.Contract.Domain.csproj", "{35DCA7CA-A23F-48E8-AD05-F6FCE4E6E3E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

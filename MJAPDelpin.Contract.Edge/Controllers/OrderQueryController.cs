@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MJAPDelpin.Contract.Application.Interface;
@@ -13,6 +14,19 @@ namespace MJAPDelpin.Contract.Edge.Controllers
     [ApiController]
     public class OrderQueryController : ControllerBase
     {
+        //private readonly IMediator _mediator;
+
+        //public OrderQueryController(IMediator mediator)
+        //{
+        //    _mediator = mediator;
+        //}
+
+        //[HttpGet()]
+        //public async Task<IActionResult> GetAllOrders()
+        //{
+
+        //    return Ok();
+        //}
 
         IQueryService QueryService;
 
@@ -20,11 +34,11 @@ namespace MJAPDelpin.Contract.Edge.Controllers
         {
             QueryService = queryService;
         }
-        
+
 
         // GET: api/Order
         [HttpGet]
-        public List<Order>Get()
+        public List<Order> Get()
         {
             return QueryService.GetAllOrders();
         }
@@ -36,6 +50,6 @@ namespace MJAPDelpin.Contract.Edge.Controllers
             return "value";
         }
 
-      
+
     }
 }

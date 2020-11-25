@@ -5,6 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.6.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.6.3" />
@@ -13,6 +15,13 @@
   <ItemGroup>
     <ProjectReference Include="..\MJAPDelpin.Contract.Application\MJAPDelpin.Contract.Application.csproj" />
     <ProjectReference Include="..\MJAPDelpin.Contract.Domain\MJAPDelpin.Contract.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Mapping\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Repositories\" />
+    <Folder Include="Responses\" />
   </ItemGroup>
 
 

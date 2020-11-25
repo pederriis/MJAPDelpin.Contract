@@ -6,11 +6,14 @@ namespace MJAPDelpin.Contract.Domain.Models
 {
     public class DTOCustomer
     {
-        int CustomerId;
+        public int CustomerId { get; private set; }
+        public string Name { get; private set; }
 
-       public DTOCustomer(int customerid)
+       public DTOCustomer(int customerid, string name)
         {
             CustomerId = customerid;
+            Name = name;
+
         }
     }
 }
