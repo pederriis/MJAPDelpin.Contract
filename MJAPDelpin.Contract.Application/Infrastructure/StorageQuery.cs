@@ -12,21 +12,10 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 {
     public class StorageQuery :IStorageQuery
     {
-
-       // private IConfiguration Config;
-
-        private StorageQuery()
-        {
-           // Config = _config;
-        }
-
         private string GetConnectionString()
         {
             return new string("Server = den1.mssql7.gear.host; Database = delpincontract; User ID = delpincontract; Password = Up4GZLm~pDo~");
         }
-
-        
-
 
         public Order GetOrder(int id)
         {
@@ -36,6 +25,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
             return null;
         }
+
         public List<Order> GetAllOrders()
         {
             //DTOCustomer Customer = new DTOCustomer(1);
