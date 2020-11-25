@@ -14,8 +14,8 @@ namespace MJAPDelpin.Contract.Edge
     {
         public static void Main(string[] args)
         {
-            RabbitLogic logic= new RabbitLogic();
-            logic.GetCustomerCreatedFromRabbit();
+            //RabbitLogic logic= new RabbitLogic();
+           // logic.GetCustomerCreatedFromRabbit();
             CreateHostBuilder(args).Build().Run();
         }
 

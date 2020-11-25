@@ -13,11 +13,11 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
     public class StorageQuery :IStorageQuery
     {
 
-        private IConfiguration Config;
+       // private IConfiguration Config;
 
-        private StorageQuery(IConfiguration _config)
+        private StorageQuery()
         {
-            Config = _config;
+           // Config = _config;
         }
 
         private string GetConnectionString()
