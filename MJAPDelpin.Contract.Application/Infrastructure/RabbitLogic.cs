@@ -25,11 +25,11 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {
-                channel.QueueDeclare(queue: "ressourceCreate_queue",//husk at ændre strengen, hvis der skal lyttes til en anden kø. 
-                                     durable: true,
-                                     exclusive: false,
-                                     autoDelete: false,
-                                     arguments: null);
+                //channel.QueueDeclare(queue: "ressourceCreate_queue",//husk at ændre strengen, hvis der skal lyttes til en anden kø. 
+                //                     durable: false,
+                //                     exclusive: false,
+                //                     autoDelete: false,
+                //                     arguments: null);
 
                 //channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
                 //Console.WriteLine(" [*] Waiting for messages.");
