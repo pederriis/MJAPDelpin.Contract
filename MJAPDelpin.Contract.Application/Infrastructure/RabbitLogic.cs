@@ -12,7 +12,12 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
     public class RabbitLogic
     {
         private static RabbitLogic instance;
-        private ConnectionFactory factory; 
+        private ConnectionFactory factory;
+        private string StringRessuceCreate { get; set; } = "ressourceCreate_queue";
+        private string StringRessuceUpdate { get; set; } = "ressourceUpdate_queue";
+        private string StringCustomerCreate { get; set; } = "customercreate_queue";
+        private string StringCustomerUpdate { get; set; } = "customerupdate_queue";
+
         private RabbitLogic() 
         {
             factory = new ConnectionFactory() { HostName = "localhost" };
@@ -42,6 +47,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                 var consumer = new EventingBasicConsumer(channel);
                 consumer.Received += (sender, ea) =>
                 {
+                    
                     var body = ea.Body.ToArray();
                     var message = Encoding.UTF8.GetString(body);
                     Console.WriteLine("besked modtaget [x] Received {0}", message);
@@ -70,6 +76,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                     // Note: it is possible to access the channel via
                     //       ((EventingBasicConsumer)sender).Model here
                     channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+
                 };
                 channel.BasicConsume(queue: (string)queueType,
                                      autoAck: false,
@@ -112,9 +119,5 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             else
                 return instance;
         }
-
-
-
-
     }
 }
