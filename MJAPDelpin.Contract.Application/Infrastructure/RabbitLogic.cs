@@ -74,10 +74,10 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                             database.UpdateCustomerInDatabase(upateCustomer);
                             break;
                         case "ressourceCreate_queue":
-                            //DTORessource insertRessource = ConvertFromJsonToDTOResource(jsonstring);
-                           // database.InsertResourceInDataBase(insertRessource);
+                            DTORessource insertRessource = ConvertFromJsonToDTOResource(jsonstring);
+                            database.InsertResourceInDataBase(insertRessource);
                             break;
-                        case "ressourceUreate_queue":
+                        case "ressourceUpdate_queue":
                             //DTORessource updateRessource = ConvertFromJsonToDTOResource(jsonstring);
                             //database.UpdataResourceInDataBase(updateRessource);
                             break;
@@ -116,22 +116,13 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
         {
             var jData = JObject.Parse(jsonstring);
 
-            int ressourceID = (int)jData["RessourceID"];
-            string ressorceModelString = (string)jData["ModelString"];
+            int ressourceID = (int)jData["RessourceID"]["Value"];
+            string ressorceModelString = (string)jData["ModelString"]["Value"];
             bool ressourceState=(bool)jData["State"];
+            decimal price = 500; //dette skal rettes, så pricen kommer fra jsonstring
 
-            return new DTORessource(ressourceID, ressorceModelString, ressourceState);
+            return new DTORessource(ressourceID, ressorceModelString, ressourceState, price);
         }
-
-        //public void HandleResourceCreate(string jsonstring)
-        //{
-        //    Console.WriteLine("Her behandles ResourceCreate :" + jsonstring);
-        //}
-
-        //public void HandleResourceUpdate(string jsonstring)
-        //{
-        //    Console.WriteLine("Her behandles Resourceupdate :" + jsonstring);
-        //}
 
         public static RabbitLogic GetInstance() 
         {

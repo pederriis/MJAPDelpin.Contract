@@ -67,14 +67,58 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             
         }
 
-        public void InsertResourceInDataBase(DTORessource ressource)
+        public void InsertResourceInDataBase(DTORessource resource)
         {
-            //Set resurcen i databasen
+            //skriv en rosurce ind i databasen
+
+            
+
+                string query = $"insert into Ressources(Id, Modelstring, Price) values(@id, @modelstring, @price)";
+
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
+                command.Parameters.AddWithValue("@id", resource.RessourceId);
+                command.Parameters.AddWithValue("@modelstring", resource.RessourceModelString);
+                command.Parameters.AddWithValue("@price", resource.Price);
+
+                conn.Open();
+                int result = command.ExecuteNonQuery();
+                conn.Close();
+
+                // Check Error
+                if (result < 0)
+                    Console.WriteLine("Error inserting data into Database!");
+                else
+                {
+                    Console.WriteLine("nu er der vistnok skrevet en resurse i databasen");
+                }
+            }
         }
 
         public void UpdataResourceInDataBase(DTORessource resource)
         {
             //Opdater resource i databasen
+
+            string query = $"update Ressources set Modelstring = @modelstring, price = @price where id = @id";
+
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
+                command.Parameters.AddWithValue("@id", resource.RessourceId);
+                command.Parameters.AddWithValue("@modelstring", resource.RessourceModelString);
+                command.Parameters.AddWithValue("@price", resource.Price);
+
+                conn.Open();
+                int result = command.ExecuteNonQuery();
+                conn.Close();
+
+                // Check Error
+                if (result < 0)
+                    Console.WriteLine("Error inserting data into Database!");
+                else
+                {
+                    Console.WriteLine("nu er der vistnok skrevet en resurse i databasen");
+                }
+            }
         }
 
     }
