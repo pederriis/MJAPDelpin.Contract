@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using MJAPDelpin.Contract.Domain.Models;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
@@ -15,43 +16,88 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
         private RabbitLogic() 
         {
             factory = new ConnectionFactory() { HostName = "localhost" };
-            SetUpCreateQueue();
+
+            Thread customerCreate = new Thread(SetUpQueue);
+            customerCreate.Start("customercreate_queue");
+
+            Thread customerUpdate = new Thread(SetUpQueue);
+            customerUpdate.Start("customerupdate_queue");
+
         }
-        private void SetUpCreateQueue()
+        private void SetUpQueue(object queueType)
         {
+            Console.WriteLine("nu startes :"+(string)queueType);
             //henter kunde fra Rabbit-køen.
+            string jsonstring = "";
 
-            
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            // var factory = new ConnectionFactory() { HostName = "localhost" };
+            var connection = factory.CreateConnection();
+            var channel = connection.CreateModel();
+               
             {
-                //channel.QueueDeclare(queue: "ressourceCreate_queue",//husk at ændre strengen, hvis der skal lyttes til en anden kø. 
-                //                     durable: false,
-                //                     exclusive: false,
-                //                     autoDelete: false,
-                //                     arguments: null);
+                channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
-                //channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
-                //Console.WriteLine(" [*] Waiting for messages.");
+                Console.WriteLine(" [*] Waiting for messages.");
 
                 var consumer = new EventingBasicConsumer(channel);
                 consumer.Received += (sender, ea) =>
                 {
                     var body = ea.Body.ToArray();
                     var message = Encoding.UTF8.GetString(body);
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Received message: {0}", message);
-                    Console.ResetColor();
-                    var dto = JsonConvert.DeserializeObject<DTOCustomer>(message);
+                    Console.WriteLine("besked modtaget [x] Received {0}", message);
+                    jsonstring = message;
+
+                    switch (queueType)
+                    {
+                        case "customercreate_queue":
+                            HandleCustomerCreate(jsonstring);
+                            break;
+                        case "customerupdate_queue":
+                            HandleCustomerUpdate(jsonstring);
+                            break;
+                        case "ressourceCreate_queue":
+                            HandleResourceCreate(jsonstring);
+                            break;
+                        case "ressourceUreate_queue":
+                            HandleResourceUpdate(jsonstring);
+                            break;
+                        default:
+                            // code block
+                            break;
+                    }
+                    Console.WriteLine(" [x] Done");
 
                     // Note: it is possible to access the channel via
                     //       ((EventingBasicConsumer)sender).Model here
                     channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                 };
-                channel.BasicConsume(queue: "ressourceCreate_queue",
-                    autoAck: false,
-                    consumer: consumer);
+                channel.BasicConsume(queue: (string)queueType,
+                                     autoAck: false,
+                                     consumer: consumer);
+               // Console.ReadLine();
             }
+        }
+
+        public void HandleCustomerCreate(string jsonstring)
+        {
+            //konverter json til customer-object
+            //taler med databasen 
+            Console.WriteLine( "Her behandles customercreate :"+jsonstring);
+        }
+
+        public void HandleCustomerUpdate(string jsonstring)
+        {
+            Console.WriteLine("Her behandles Customerupdate :" + jsonstring);
+        }
+
+        public void HandleResourceCreate(string jsonstring)
+        {
+            Console.WriteLine("Her behandles ResourceCreate :" + jsonstring);
+        }
+
+        public void HandleResourceUpdate(string jsonstring)
+        {
+            Console.WriteLine("Her behandles Resourceupdate :" + jsonstring);
         }
 
         public static RabbitLogic GetInstance() 
