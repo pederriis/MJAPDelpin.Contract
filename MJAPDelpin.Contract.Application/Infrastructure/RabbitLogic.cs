@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text;
 using System.Threading;
+using MJAPDelpin.Contract.Application.Interface;
+using MJAPDelpin.Contract.Domain.DTO;
 using MJAPDelpin.Contract.Domain.Models;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
@@ -13,20 +17,26 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
     {
         private static RabbitLogic instance;
         private ConnectionFactory factory;
-        private string StringRessuceCreate { get; set; } = "ressourceCreate_queue";
-        private string StringRessuceUpdate { get; set; } = "ressourceUpdate_queue";
-        private string StringCustomerCreate { get; set; } = "customercreate_queue";
-        private string StringCustomerUpdate { get; set; } = "customerupdate_queue";
+
+        private IDatabaseLogic database;
+        
 
         private RabbitLogic() 
         {
             factory = new ConnectionFactory() { HostName = "localhost" };
+
+            database = new SQLDatabaseLogic();
 
             Thread customerCreate = new Thread(SetUpQueue);
             customerCreate.Start("customercreate_queue");
 
             Thread customerUpdate = new Thread(SetUpQueue);
             customerUpdate.Start("customerupdate_queue");
+
+            Thread ResourceCreate = new Thread(SetUpQueue);
+            ResourceCreate.Start("ressourceCreate_queue");
+
+          
 
         }
         private void SetUpQueue(object queueType)
@@ -35,7 +45,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             //henter kunde fra Rabbit-køen.
             string jsonstring = "";
 
-            // var factory = new ConnectionFactory() { HostName = "localhost" };
+           
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
                
@@ -56,16 +66,20 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                     switch (queueType)
                     {
                         case "customercreate_queue":
-                            HandleCustomerCreate(jsonstring);
+                            DTOCustomer insertCustomer = ConvertFromJsonToDTOCustomer(jsonstring);
+                            database.InsertCustomerIntoDatabase(insertCustomer);
                             break;
                         case "customerupdate_queue":
-                            HandleCustomerUpdate(jsonstring);
+                            DTOCustomer upateCustomer = ConvertFromJsonToDTOCustomer(jsonstring);
+                            database.UpdateCustomerInDatabase(upateCustomer);
                             break;
                         case "ressourceCreate_queue":
-                            HandleResourceCreate(jsonstring);
+                            //DTORessource insertRessource = ConvertFromJsonToDTOResource(jsonstring);
+                           // database.InsertResourceInDataBase(insertRessource);
                             break;
                         case "ressourceUreate_queue":
-                            HandleResourceUpdate(jsonstring);
+                            //DTORessource updateRessource = ConvertFromJsonToDTOResource(jsonstring);
+                            //database.UpdataResourceInDataBase(updateRessource);
                             break;
                         default:
                             // code block
@@ -85,27 +99,39 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             }
         }
 
-        public void HandleCustomerCreate(string jsonstring)
+        private DTOCustomer ConvertFromJsonToDTOCustomer(string jsonstring)
         {
-            //konverter json til customer-object
-            //taler med databasen 
-            Console.WriteLine( "Her behandles customercreate :"+jsonstring);
+            var jData = JObject.Parse(jsonstring);
+
+            //bygger en kunde ud af værdierne i jsonstringen
+            int customerID = (int)jData["ID"]["CustomerID"];
+            string customerName = (string)jData["Name"]["CustomerName"];
+            
+
+            return new DTOCustomer(customerID, customerName);
+
+        }
+       
+        private DTORessource ConvertFromJsonToDTOResource(string jsonstring)
+        {
+            var jData = JObject.Parse(jsonstring);
+
+            int ressourceID = (int)jData["RessourceID"];
+            string ressorceModelString = (string)jData["ModelString"];
+            bool ressourceState=(bool)jData["State"];
+
+            return new DTORessource(ressourceID, ressorceModelString, ressourceState);
         }
 
-        public void HandleCustomerUpdate(string jsonstring)
-        {
-            Console.WriteLine("Her behandles Customerupdate :" + jsonstring);
-        }
+        //public void HandleResourceCreate(string jsonstring)
+        //{
+        //    Console.WriteLine("Her behandles ResourceCreate :" + jsonstring);
+        //}
 
-        public void HandleResourceCreate(string jsonstring)
-        {
-            Console.WriteLine("Her behandles ResourceCreate :" + jsonstring);
-        }
-
-        public void HandleResourceUpdate(string jsonstring)
-        {
-            Console.WriteLine("Her behandles Resourceupdate :" + jsonstring);
-        }
+        //public void HandleResourceUpdate(string jsonstring)
+        //{
+        //    Console.WriteLine("Her behandles Resourceupdate :" + jsonstring);
+        //}
 
         public static RabbitLogic GetInstance() 
         {
