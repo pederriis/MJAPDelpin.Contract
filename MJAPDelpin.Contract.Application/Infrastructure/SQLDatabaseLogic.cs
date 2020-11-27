@@ -99,12 +99,12 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
         {
             //Opdater resource i databasen
 
-            string query = $"update Ressources set Modelstring = @modelstring, price = @price where id = @id";
+            string query = $"update Ressources set price = @price where id = @id";
 
             using (SqlCommand command = new SqlCommand(query, conn))
             {
                 command.Parameters.AddWithValue("@id", resource.RessourceId);
-                command.Parameters.AddWithValue("@modelstring", resource.RessourceModelString);
+                
                 command.Parameters.AddWithValue("@price", resource.Price);
 
                 conn.Open();

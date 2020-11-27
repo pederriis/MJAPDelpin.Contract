@@ -36,6 +36,9 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             Thread ResourceCreate = new Thread(SetUpQueue);
             ResourceCreate.Start("ressourceCreate_queue");
 
+            Thread ResourceUpdate = new Thread(SetUpQueue);
+            ResourceUpdate.Start("ressourceUpdate_queue");
+
           
 
         }
@@ -66,20 +69,20 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                     switch (queueType)
                     {
                         case "customercreate_queue":
-                            DTOCustomer insertCustomer = ConvertFromJsonToDTOCustomer(jsonstring);
+                            DTOCustomer insertCustomer =Mapper.ConvertFromJsonToDTOCustomer(jsonstring);
                             database.InsertCustomerIntoDatabase(insertCustomer);
                             break;
                         case "customerupdate_queue":
-                            DTOCustomer upateCustomer = ConvertFromJsonToDTOCustomer(jsonstring);
+                            DTOCustomer upateCustomer =Mapper.ConvertFromJsonToDTOCustomer(jsonstring);
                             database.UpdateCustomerInDatabase(upateCustomer);
                             break;
                         case "ressourceCreate_queue":
-                            DTORessource insertRessource = ConvertFromJsonToDTOResource(jsonstring);
-                            database.InsertResourceInDataBase(insertRessource);
+                            DTORessource createRessource = Mapper.ConvertFromJsonToDTOResource(jsonstring);
+                            database.InsertResourceInDataBase(createRessource);
                             break;
                         case "ressourceUpdate_queue":
-                            //DTORessource updateRessource = ConvertFromJsonToDTOResource(jsonstring);
-                            //database.UpdataResourceInDataBase(updateRessource);
+                            DTORessource updateRessource = Mapper.ConvertFromJsonToDTOResource(jsonstring);
+                            database.UpdataResourceInDataBase(updateRessource);
                             break;
                         default:
                             // code block
@@ -99,30 +102,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             }
         }
 
-        private DTOCustomer ConvertFromJsonToDTOCustomer(string jsonstring)
-        {
-            var jData = JObject.Parse(jsonstring);
-
-            //bygger en kunde ud af værdierne i jsonstringen
-            int customerID = (int)jData["ID"]["CustomerID"];
-            string customerName = (string)jData["Name"]["CustomerName"];
-            
-
-            return new DTOCustomer(customerID, customerName);
-
-        }
        
-        private DTORessource ConvertFromJsonToDTOResource(string jsonstring)
-        {
-            var jData = JObject.Parse(jsonstring);
-
-            int ressourceID = (int)jData["RessourceID"]["Value"];
-            string ressorceModelString = (string)jData["ModelString"]["Value"];
-            bool ressourceState=(bool)jData["State"];
-            int price = (int)jData["Price"]["Value"];
-
-            return new DTORessource(ressourceID, ressorceModelString, ressourceState, price);
-        }
 
         public static RabbitLogic GetInstance() 
         {
