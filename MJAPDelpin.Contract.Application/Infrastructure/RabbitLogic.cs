@@ -119,7 +119,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             int ressourceID = (int)jData["RessourceID"]["Value"];
             string ressorceModelString = (string)jData["ModelString"]["Value"];
             bool ressourceState=(bool)jData["State"];
-            decimal price = 500; //dette skal rettes, så pricen kommer fra jsonstring
+            int price = (int)jData["Price"]["Value"];
 
             return new DTORessource(ressourceID, ressorceModelString, ressourceState, price);
         }
