@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 using MediatR;
 using MJAPDelpin.Contract.Edge.Responses;
 
-namespace MJAPDelpin.Contract.Edge.Qurries
+namespace MJAPDelpin.Contract.Edge.Commands
 {
-    public class GetAllOrdersQuery:IRequest<List<OrderResponse>>
+    public class CreateOrderCommand:IRequest<OrderResponse>
     {
-
-
     }
 }

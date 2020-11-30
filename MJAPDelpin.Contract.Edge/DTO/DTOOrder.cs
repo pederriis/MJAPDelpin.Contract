@@ -13,12 +13,14 @@ namespace MJAPDelpin.Contract.Edge.DTO
       
         public DateTime CreationDate { get; private set; }
 
-        public DTOOrder(int _id,int _customerId,int _ressourceId,DateTime _creationDate)
+        public decimal TotalPrice { get; private set; }
+
+        public DTOOrder(int id,int customerId,int ressourceId,DateTime creationDate)
         {
-            Id = _id;
-            CustomerId = _customerId;
-            RessourceId = _ressourceId;
-            CreationDate = _creationDate;
+            Id = id;
+            CustomerId = customerId;
+            RessourceId = ressourceId;
+            CreationDate = creationDate;
         }
 
     }

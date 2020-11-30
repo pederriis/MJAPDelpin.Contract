@@ -17,12 +17,5 @@
     <ProjectReference Include="..\MJAPDelpin.Contract.Domain\MJAPDelpin.Contract.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mapping\" />
-    <Folder Include="Commands\" />
-    <Folder Include="Repositories\" />
-    <Folder Include="Responses\" />
-  </ItemGroup>
-
 
 </Project>

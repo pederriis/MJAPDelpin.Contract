@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MJAPDelpin.Contract.Application.Interface;
 using MJAPDelpin.Contract.Domain.Models;
+using MJAPDelpin.Contract.Edge.Qurries;
 
 namespace MJAPDelpin.Contract.Edge.Controllers
 {
@@ -14,41 +15,42 @@ namespace MJAPDelpin.Contract.Edge.Controllers
     [ApiController]
     public class OrderQueryController : ControllerBase
     {
-        //private readonly IMediator _mediator;
+        private readonly IMediator _mediator;
 
-        //public OrderQueryController(IMediator mediator)
+        public OrderQueryController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var query= new GetAllOrdersQuery();
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        //IQueryService QueryService;
+
+        //public OrderQueryController(IQueryService queryService)
         //{
-        //    _mediator = mediator;
+        //    QueryService = queryService;
         //}
 
-        //[HttpGet()]
-        //public async Task<IActionResult> GetAllOrders()
-        //{
 
-        //    return Ok();
+        //// GET: api/Order
+        //[HttpGet]
+        //public List<Order> Get()
+        //{
+        //    return QueryService.GetAllOrders();
         //}
 
-        IQueryService QueryService;
-
-        public OrderQueryController(IQueryService queryService)
-        {
-            QueryService = queryService;
-        }
-
-
-        // GET: api/Order
-        [HttpGet]
-        public List<Order> Get()
-        {
-            return QueryService.GetAllOrders();
-        }
-
-        // GET: api/Order/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //// GET: api/Order/5
+        //[HttpGet("{id}", Name = "Get")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
 
     }
