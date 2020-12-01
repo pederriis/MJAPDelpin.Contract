@@ -39,8 +39,6 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                     Console.WriteLine("nu er der vistnok skrevet en kunde i databasen");
                 }
             }
-
-         
         }
 
         public void UpdateCustomerInDatabase(DTOCustomer customer)

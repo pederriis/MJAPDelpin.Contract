@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-//using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MJAPDelpin.Contract.Application.Interface;
-using MJAPDelpin.Contract.Domain.Models;
+using MJAPDelpin.Contract.Application.Requests.Query;
 
 namespace MJAPDelpin.Contract.Edge.Controllers
 {
@@ -14,41 +9,42 @@ namespace MJAPDelpin.Contract.Edge.Controllers
     [ApiController]
     public class OrderQueryController : ControllerBase
     {
-        //private readonly IMediator _mediator;
+        private readonly IMediator _mediator;
 
-        //public OrderQueryController(IMediator mediator)
-        //{
-        //    _mediator = mediator;
-        //}
-
-        //[HttpGet()]
-        //public async Task<IActionResult> GetAllOrders()
-        //{
-
-        //    return Ok();
-        //}
-
-        IQueryService QueryService;
-
-        public OrderQueryController(IQueryService queryService)
+        public OrderQueryController(IMediator mediator)
         {
-            QueryService = queryService;
+            _mediator = mediator;
         }
 
-
-        // GET: api/Order
         [HttpGet]
-        public List<Order> Get()
+        public async Task<IActionResult> GetAllOrders()
         {
-            return QueryService.GetAllOrders();
+            var query= new QueryGetAllOrders();
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
-        // GET: api/Order/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //IQueryService QueryService;
+
+        //public OrderQueryController(IQueryService queryService)
+        //{
+        //    QueryService = queryService;
+        //}
+
+
+        //// GET: api/Order
+        //[HttpGet]
+        //public List<Order> Get()
+        //{
+        //    return QueryService.GetAllOrders();
+        //}
+
+        //// GET: api/Order/5
+        //[HttpGet("{id}", Name = "Get")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
 
     }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MediatR;
 //using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,9 +13,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MJAPDelpin.Contract.Application.Handlers.Query;
 using MJAPDelpin.Contract.Application.Infrastructure;
 using MJAPDelpin.Contract.Application.Interface;
-using MJAPDelpin.Contract.Application.Query;
+using MJAPDelpin.Contract.Application.Requests.Query;
+using MJAPDelpin.Contract.Domain.Models;
+using MJAPDelpin.Contract.Edge.InfrastructureInterfaces;
+using MJAPDelpin.Contract.Edge.Mapping;
+using MJAPDelpin.Contract.Edge.Repositories;
 
 namespace MJAPDelpin.Contract.Edge
 {
@@ -44,11 +50,11 @@ namespace MJAPDelpin.Contract.Edge
 
             services.AddControllers();
 
-
-
-            services.AddScoped<IQueryService, QueryService>();
-            services.AddScoped<IStorageQuery, StorageQuery>();
-            //services.AddMediatR(typeof(Startup));
+            services.AddSingleton<IOrderQueryRepository, OrderQueryRepository>();
+            services.AddSingleton<IMapper, MockMapper>();
+            services.AddSingleton<IStorageQuery, StorageQuery>();
+            services.AddSingleton<IRequestHandler<QueryGetAllOrders, List<Order>>, GetAllOrdersHandler>();
+            services.AddMediatR(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
