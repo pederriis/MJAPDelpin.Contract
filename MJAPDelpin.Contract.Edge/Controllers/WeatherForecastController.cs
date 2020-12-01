@@ -13,7 +13,7 @@ namespace MJAPDelpin.Contract.Edge.Controllers
     {
         private static readonly string[] Summaries = new[]
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            "frossen", "Bracing", "Chilly", "koldt", "Mildt", "Warm", "Balmy", "varmt", "Sweltering", "Scorching"
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
