@@ -7,7 +7,7 @@ using MJAPDelpin.Contract.Edge.Responses;
 
 namespace MJAPDelpin.Contract.Edge.Mapping
 {
-    public class Mapper : IMapper
+    public class MockMapper : IMapper
     {
         public List<OrderResponse> MapOrdersDtoToOrderResponse(List<DTOOrder> orders)
         {

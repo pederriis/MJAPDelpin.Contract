@@ -11,20 +11,21 @@ using MJAPDelpin.Contract.Edge.Responses;
 
 namespace MJAPDelpin.Contract.Edge.Handlers
 {
-    public class GetAllOrdersHandler:IRequestHandler<GetAllOrdersQuery,List<OrderResponse>>
+    public class GetAllOrdersHandler :IRequestHandler<GetAllOrderResponseQuery,List<OrderResponse>>
     {
-        private readonly IOrderQueryRepository _orderQueryRepository;
-        private readonly IMapper _mapper;
+        private readonly IOrderQueryRepository orderQueryRepository;
+        private readonly IMapper mapper;
 
-        public GetAllOrdersHandler(IOrderQueryRepository ordersQueryRepository, IMapper mapper)
+        public GetAllOrdersHandler(IOrderQueryRepository orderQueryRepository, IMapper mapper)
         {
-            _orderQueryRepository = ordersQueryRepository;
-            _mapper = mapper;
+            this.orderQueryRepository = orderQueryRepository;
+            this.mapper = mapper;
+
         }
-        public async Task<List<OrderResponse>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
+        public async Task<List<OrderResponse>> Handle(GetAllOrderResponseQuery request, CancellationToken cancellationToken)
         {
-            var orders = await _orderQueryRepository.GetOrdersAsync();
-            return _mapper.MapOrdersDtoToOrderResponse(orders);
+            var orders = await orderQueryRepository.GetOrdersAsync();
+            return mapper.MapOrdersDtoToOrderResponse(orders);
         }
     }
 }

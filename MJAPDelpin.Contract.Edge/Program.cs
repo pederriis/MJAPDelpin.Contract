@@ -14,7 +14,7 @@ namespace MJAPDelpin.Contract.Edge
     {
         public static void Main(string[] args)
         {
-            RabbitLogic.GetInstance();
+            //RabbitLogic.GetInstance();
             CreateHostBuilder(args).Build().Run();
         }
 

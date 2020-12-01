@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-//using MediatR;
-using Microsoft.AspNetCore.Http;
+﻿using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MJAPDelpin.Contract.Application.Interface;
-using MJAPDelpin.Contract.Domain.Models;
-using MJAPDelpin.Contract.Edge.Qurries;
+using MJAPDelpin.Contract.Application.Requests.Query;
 
 namespace MJAPDelpin.Contract.Edge.Controllers
 {
@@ -22,10 +16,10 @@ namespace MJAPDelpin.Contract.Edge.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet()]
+        [HttpGet]
         public async Task<IActionResult> GetAllOrders()
         {
-            var query= new GetAllOrdersQuery();
+            var query= new QueryGetAllOrders();
             var result = await _mediator.Send(query);
             return Ok(result);
         }

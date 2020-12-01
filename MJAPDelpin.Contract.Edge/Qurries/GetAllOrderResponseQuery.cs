@@ -7,9 +7,8 @@ using MJAPDelpin.Contract.Edge.Responses;
 
 namespace MJAPDelpin.Contract.Edge.Qurries
 {
-    public class GetAllOrdersQuery:IRequest<List<OrderResponse>>
+    public class GetAllOrderResponseQuery : IRequest<List<OrderResponse>>
     {
-
 
     }
 }

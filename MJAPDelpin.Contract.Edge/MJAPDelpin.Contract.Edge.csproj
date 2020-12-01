@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MJAPDelpin.Contract.Application\MJAPDelpin.Contract.Application.csproj" />
-    <ProjectReference Include="..\MJAPDelpin.Contract.Domain\MJAPDelpin.Contract.Domain.csproj" />
   </ItemGroup>
 
 
