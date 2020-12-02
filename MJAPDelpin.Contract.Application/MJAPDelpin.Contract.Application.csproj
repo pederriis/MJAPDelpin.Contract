@@ -17,9 +17,4 @@
     <ProjectReference Include="..\MJAPDelpin.Contract.Domain\MJAPDelpin.Contract.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Handlers\Command\" />
-    <Folder Include="Requests\Command\" />
-  </ItemGroup>
-
 </Project>

@@ -39,11 +39,11 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             connection.Open();
 
             List<Order> orderList = new List<Order>();
-            using (SqlDataReader reader = command.ExecuteReader())
-                while (reader.Read())
-                    orderList.Add(new Order(
-                    Convert.ToInt32(reader["Id"].ToString()), null, Convert.ToDateTime(reader["Date"])
-                    ));
+            //using (SqlDataReader reader = command.ExecuteReader())
+            //    while (reader.Read())
+            //        orderList.Add(new Order(
+            //        Convert.ToInt32(reader["Id"].ToString()), null, Convert.ToDateTime(reader["Date"])
+            //        ));
             return orderList;
         };
 
@@ -54,33 +54,16 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             SqlCommand command = new SqlCommand(query, connection);
             connection.Open();
 
-            Order order = null;
-            using (SqlDataReader reader = command.ExecuteReader())
-                while (reader.Read())
-                    order = new Order(
-                    Convert.ToInt32(reader["Id"].ToString()), null, Convert.ToDateTime(reader["Date"])
-                    );
+            Order order = new Order(0,0, null, DateTime.Now, 0);
+            //using (SqlDataReader reader = command.ExecuteReader())
+            //    while (reader.Read())
+            //        order = new Order(
+            //        Convert.ToInt32(reader["Id"].ToString()), null, Convert.ToDateTime(reader["Date"])
+            //        );
             return order;
         };
 
-        private Order testDel(string query) 
-        {
 
-            SqlConnection Connection = new SqlConnection(GetConnectionString());
-
-            SqlConnection connection = new SqlConnection(GetConnectionString());
-
-            SqlCommand command = new SqlCommand(query, connection);
-            connection.Open();
-
-            Order order = null;
-            using (SqlDataReader reader = command.ExecuteReader())
-                while (reader.Read())
-                    order = new Order(
-                    Convert.ToInt32(reader["Id"].ToString()), null, Convert.ToDateTime(reader["Date"])
-                    );
-            return order;
-        }
 
         /*Possible refactor option, generic delegates
             private delegate TResult Func<in T , out TResult> (  T arg );

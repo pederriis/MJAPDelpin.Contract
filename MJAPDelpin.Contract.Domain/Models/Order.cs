@@ -1,6 +1,7 @@
 ﻿using MJAPDelpin.Contract.Domain.DTO;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Text;
 
 namespace MJAPDelpin.Contract.Domain.Models
@@ -8,16 +9,18 @@ namespace MJAPDelpin.Contract.Domain.Models
    public class Order
     {
         public int ID { get; private set; }
-        public DTOCustomer Customer { get; private set; }
-        public List<DTORessource> Ressources {get; private set; }
+        public int CustomerId { get; private set; }
+        public List<int> RessourcesId {get; private set; }
         public DateTime CreationDate {get; private set; }
+        public decimal TotalPrice { get; private set; }
 
-        public Order(int _id, DTOCustomer DTOcustomer, DateTime _creationdate)
+        public Order(int _id, int _customerId, List<int> _ressourceId, DateTime _creationdate, decimal _totalPrice)
         {
-            Ressources = new List<DTORessource>();
+            RessourcesId = new List<int>();
             ID = _id;
-            Customer = DTOcustomer;
+            CustomerId = _customerId;
             CreationDate = _creationdate;
+            TotalPrice = _totalPrice;
         }
     }
 }

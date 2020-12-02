@@ -2,13 +2,15 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using MJAPDelpin.Contract.Application.Requests.Command;
 
 namespace MJAPDelpin.Contract.Application.Interface
 {
     public interface IStorageCommand
     {
-        public void InsertOrder(Order order);
-        public void UpdateOrder(Order order);
-        public void DeleteOrder(Order order);
+         Task<String> InsertOrder(CreateOrderCommand cmd);
+         Task<Order> UpdateOrder();
+         
     }
 }
