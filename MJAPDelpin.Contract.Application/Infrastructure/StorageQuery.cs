@@ -16,19 +16,36 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
         public Task<Order> GetOrder(int id)
         {
-            return Task.FromResult(orderDelegateSingle($"Select from Orders Where id='{id}'"));
+            return Task.FromResult(orderDelegateSingle("select Orders.Id as orderid, "
+                + "Orders.Date as orderdate, "
+                + "Orders.TotalPrice as ordertotalprice,"
+                + "customers.Id as customerid, "
+                + "Customers.Name as customername "
+                + " from Orders "
+                + "join Customers on Orders.CustomerId = Customers.Id "
+                +$"where orders.id={id}"));
         }
 
         public Task<List<Order>> GetAllOrders()
         {
-            return Task.FromResult(orderDelegateAll("Select * from Orders"));
+            return Task.FromResult(orderDelegateAll("select Orders.Id as orderid, "
+                +"Orders.Date as orderdate, "
+                +"Orders.TotalPrice as ordertotalprice, "
+                +"customers.Id as customerid, "
+                +"Customers.Name as customername "
+                +" from Orders "
+                +"join Customers on Orders.CustomerId = Customers.Id "
+               ));
         }
+
+      
+
 
 
         /*----------------------------PRIVATE-METHODS-------------------------------------------*/
         private static string GetConnectionString()
         {
-            return new string("Server = den1.mssql7.gear.host; Database = delpincontract; User ID = delpincontract; Password = Up4GZLm~pDo~");
+            return Utillities.ConnectionString;
         }
 
         private Func<string, List<Order>> orderDelegateAll = (string query) =>
@@ -39,13 +56,22 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             connection.Open();
 
             List<Order> orderList = new List<Order>();
-            //using (SqlDataReader reader = command.ExecuteReader())
-            //    while (reader.Read())
-            //        orderList.Add(new Order(
-            //        Convert.ToInt32(reader["Id"].ToString()), null, Convert.ToDateTime(reader["Date"])
-            //        ));
+            using (SqlDataReader reader = command.ExecuteReader())
+
+                while (reader.Read())
+                {
+                    DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
+                    List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
+
+                    Order order= new Order((int)reader["orderid"], customer, (DateTime)reader["orderdate"],ressourceList );
+                   
+                    orderList.Add(order);
+                }
+    
             return orderList;
         };
+
+       
 
         private Func<string, Order> orderDelegateSingle = (string query) =>
         {
@@ -53,17 +79,71 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
             SqlCommand command = new SqlCommand(query, connection);
             connection.Open();
+            List <DTORessource> ressorces= new List<DTORessource>();
+            Order order = null;
+            using (SqlDataReader reader = command.ExecuteReader())
 
-            Order order = new Order(0,0, null, DateTime.Now, 0);
-            //using (SqlDataReader reader = command.ExecuteReader())
-            //    while (reader.Read())
-            //        order = new Order(
-            //        Convert.ToInt32(reader["Id"].ToString()), null, Convert.ToDateTime(reader["Date"])
-            //        );
+                while (reader.Read())
+                {
+                    DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
+                    List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
+
+                     order = new Order((int)reader["orderid"], customer, (DateTime)reader["orderdate"], ressourceList);
+
+                }
+
+
+
             return order;
         };
 
 
+        private static List<DTORessource> GetRessourcesFromRessorceOrderID(int ressourceOrderID)
+        {
+            SqlConnection connection = new SqlConnection(GetConnectionString());
+
+            string query = "select Ressources.Id as ressourceid, "
+                + "Ressources.Modelstring as ressourcemodelstring, "
+                + "Ressources.Price as ressourceprice from RessourceOrders "
+                + "join Ressources on RessourceOrders.RessourceId = Ressources.Id "
+                + $"where orderid = {ressourceOrderID}";
+
+            SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
+
+            List<DTORessource> ressorceList = new List<DTORessource>();
+            using (SqlDataReader reader = command.ExecuteReader())
+
+                while (reader.Read())
+                {
+                    DTORessource ressource = new DTORessource((int)reader["ressourceid"],
+                                                               (string)reader["ressourcemodelstring"],
+                                                               false,//dette skal fixes så den får den rigtige bool
+                                                              Convert.ToInt32(reader["ressourceprice"]));
+                    ressorceList.Add(ressource);
+                }
+
+            return ressorceList;
+        }
+
+        //private Order testDel(string query) 
+        //{
+
+        //    SqlConnection Connection = new SqlConnection(GetConnectionString());
+
+        //    SqlConnection connection = new SqlConnection(GetConnectionString());
+
+        //    SqlCommand command = new SqlCommand(query, connection);
+        //    connection.Open();
+
+        //    Order order = null;
+        //    using (SqlDataReader reader = command.ExecuteReader())
+        //        while (reader.Read())
+        //            order = new Order(
+        //            Convert.ToInt32(reader["Id"].ToString()), null, Convert.ToDateTime(reader["Date"], new List<DTORessource>())
+        //            );
+        //    return order;
+        //}
 
         /*Possible refactor option, generic delegates
             private delegate TResult Func<in T , out TResult> (  T arg );

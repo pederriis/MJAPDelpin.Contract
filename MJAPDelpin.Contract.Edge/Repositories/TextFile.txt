@@ -1,3 +1,0 @@
-﻿server "den1.mssql7.gear.host";
-         UserID = "delpincontract";
-       Password = "Up4GZLm~pDo~";
