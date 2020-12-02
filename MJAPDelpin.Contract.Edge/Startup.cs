@@ -18,9 +18,9 @@ using MJAPDelpin.Contract.Application.Infrastructure;
 using MJAPDelpin.Contract.Application.Interface;
 using MJAPDelpin.Contract.Application.Requests.Query;
 using MJAPDelpin.Contract.Domain.Models;
-using MJAPDelpin.Contract.Edge.InfrastructureInterfaces;
+
 using MJAPDelpin.Contract.Edge.Mapping;
-using MJAPDelpin.Contract.Edge.Repositories;
+
 
 namespace MJAPDelpin.Contract.Edge
 {
@@ -50,10 +50,11 @@ namespace MJAPDelpin.Contract.Edge
 
             services.AddControllers();
 
-            services.AddSingleton<IOrderQueryRepository, OrderQueryRepository>();
+           
             services.AddSingleton<IMapper, MockMapper>();
             services.AddSingleton<IStorageQuery, StorageQuery>();
             services.AddSingleton<IRequestHandler<QueryGetAllOrders, List<Order>>, GetAllOrdersHandler>();
+            services.AddSingleton<IRequestHandler<QueryGetSingleOrder, Order>, GetSingleOrderHandler>();
             services.AddMediatR(typeof(Startup));
         }
 

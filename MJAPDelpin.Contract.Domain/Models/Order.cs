@@ -12,12 +12,13 @@ namespace MJAPDelpin.Contract.Domain.Models
         public List<DTORessource> Ressources {get; private set; }
         public DateTime CreationDate {get; private set; }
 
-        public Order(int _id, DTOCustomer DTOcustomer, DateTime _creationdate)
+        public Order(int _id, DTOCustomer DTOcustomer, DateTime _creationdate, List<DTORessource> ressources)
         {
-            Ressources = new List<DTORessource>();
+            
             ID = _id;
             Customer = DTOcustomer;
             CreationDate = _creationdate;
+            Ressources = ressources;
         }
     }
 }

@@ -24,6 +24,15 @@ namespace MJAPDelpin.Contract.Edge.Controllers
             return Ok(result);
         }
 
+        //// GET: api/Order/5
+        [HttpGet("{id}", Name = "Get")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var query = new QueryGetSingleOrder();
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
         //IQueryService QueryService;
 
         //public OrderQueryController(IQueryService queryService)
@@ -39,12 +48,7 @@ namespace MJAPDelpin.Contract.Edge.Controllers
         //    return QueryService.GetAllOrders();
         //}
 
-        //// GET: api/Order/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
+
 
 
     }
