@@ -21,101 +21,130 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
         public void InsertCustomerIntoDatabase(DTOCustomer customer)
         {
-            string query = $"insert into customers(Id, Name) values(@id,@name)";
-
-            using (SqlCommand command = new SqlCommand(query, conn))
+            try
             {
-                command.Parameters.AddWithValue("@id",customer.CustomerId);
-                command.Parameters.AddWithValue("@name", customer.Name);
+                string query = $"insert into customers(Id, Name) values(@id,@name)";
 
-                conn.Open();
-                int result = command.ExecuteNonQuery();
-                conn.Close();
-                // Check Error
-                if (result < 0)
-                    Console.WriteLine("Error inserting data into Database!");
-                else
+                using (SqlCommand command = new SqlCommand(query, conn))
                 {
-                    Console.WriteLine("nu er der vistnok skrevet en kunde i databasen");
+                    command.Parameters.AddWithValue("@id", customer.CustomerId);
+                    command.Parameters.AddWithValue("@name", customer.Name);
+
+                    conn.Open();
+                    int result = command.ExecuteNonQuery();
+                    conn.Close();
+                    // Check Error
+                    if (result < 0)
+                        Console.WriteLine("Error inserting data into Database!");
+                    else
+                    {
+                        Console.WriteLine("nu er der vistnok skrevet en kunde i databasen");
+                    }
                 }
             }
+         catch
+            {
+                Console.WriteLine("kunde ikke skrevet i SQL-databasen");
+            }
+           
         }
 
         public void UpdateCustomerInDatabase(DTOCustomer customer)
         {
-            string query = $"update Customers set Name = @name where id = @id";
-
-            using (SqlCommand command = new SqlCommand(query, conn))
+           try
             {
-                command.Parameters.AddWithValue("@id", customer.CustomerId);
-                command.Parameters.AddWithValue("@name", customer.Name);
+                string query = $"update Customers set Name = @name where id = @id";
 
-                conn.Open();
-                int result = command.ExecuteNonQuery();
-                conn.Close();
-
-                // Check Error
-                if (result < 0)
-                    Console.WriteLine("Error inserting data into Database!");
-                else
+                using (SqlCommand command = new SqlCommand(query, conn))
                 {
-                    Console.WriteLine("nu er der vistnok opdateret en kunde i databasen");
+                    command.Parameters.AddWithValue("@id", customer.CustomerId);
+                    command.Parameters.AddWithValue("@name", customer.Name);
+
+                    conn.Open();
+                    int result = command.ExecuteNonQuery();
+                    conn.Close();
+
+                    // Check Error
+                    if (result < 0)
+                        Console.WriteLine("Error inserting data into Database!");
+                    else
+                    {
+                        Console.WriteLine("nu er der vistnok opdateret en kunde i databasen");
+                    }
                 }
+
             }
-            
+            catch
+            {
+                Console.WriteLine("Kunde ikke rettet i SQL-Databasen");
+            }
+
         }
 
         public void InsertResourceInDataBase(DTORessource resource)
         {
             //skriv en rosurce ind i databasen
 
-            
-
+            try
+            {
                 string query = $"insert into Ressources(Id, Modelstring, Price) values(@id, @modelstring, @price)";
 
-            using (SqlCommand command = new SqlCommand(query, conn))
-            {
-                command.Parameters.AddWithValue("@id", resource.RessourceId);
-                command.Parameters.AddWithValue("@modelstring", resource.RessourceModelString);
-                command.Parameters.AddWithValue("@price", resource.Price);
-
-                conn.Open();
-                int result = command.ExecuteNonQuery();
-                conn.Close();
-
-                // Check Error
-                if (result < 0)
-                    Console.WriteLine("Error inserting data into Database!");
-                else
+                using (SqlCommand command = new SqlCommand(query, conn))
                 {
-                    Console.WriteLine("nu er der vistnok skrevet en resurse i databasen");
+                    command.Parameters.AddWithValue("@id", resource.RessourceId);
+                    command.Parameters.AddWithValue("@modelstring", resource.RessourceModelString);
+                    command.Parameters.AddWithValue("@price", resource.Price);
+
+                    conn.Open();
+                    int result = command.ExecuteNonQuery();
+                    conn.Close();
+
+                    // Check Error
+                    if (result < 0)
+                        Console.WriteLine("Error inserting data into Database!");
+                    else
+                    {
+                        Console.WriteLine("nu er der vistnok skrevet en resurse i databasen");
+                    }
                 }
             }
+            catch
+            {
+                Console.WriteLine("Ressurse ikke skrevet ind i SQL-databasen");
+            }
+              
         }
 
         public void UpdataResourceInDataBase(DTORessource resource)
         {
             //Opdater resource i databasen
 
-            string query = $"update Ressources set price = @price where id = @id";
-
-            using (SqlCommand command = new SqlCommand(query, conn))
+            try
             {
-                command.Parameters.AddWithValue("@id", resource.RessourceId);
-                
-                command.Parameters.AddWithValue("@price", resource.Price);
+                string query = $"update Ressources set price = @price where id = @id";
 
-                conn.Open();
-                int result = command.ExecuteNonQuery();
-                conn.Close();
-
-                // Check Error
-                if (result < 0)
-                    Console.WriteLine("Error inserting data into Database!");
-                else
+                using (SqlCommand command = new SqlCommand(query, conn))
                 {
-                    Console.WriteLine("nu er der vistnok skrevet en resurse i databasen");
+                    command.Parameters.AddWithValue("@id", resource.RessourceId);
+
+                    command.Parameters.AddWithValue("@price", resource.Price);
+
+                    conn.Open();
+                    int result = command.ExecuteNonQuery();
+                    conn.Close();
+
+                    // Check Error
+                    if (result < 0)
+                        Console.WriteLine("Error inserting data into Database!");
+                    else
+                    {
+                        Console.WriteLine("nu er der vistnok skrevet en resurse i databasen");
+                    }
                 }
+            }
+            catch
+            {
+                Console.WriteLine("Ressurse ikke opdateret i SQL-databasen");
             }
         }
 
