@@ -8,6 +8,11 @@ namespace MJAPDelpin.Contract.Application.Requests.Query
 {
     public class QueryGetSingleOrder : IRequest<Order>
     {
-        //noget med en constructor her der deffinerer id'et?
+        public int OrderID { get; private set; }
+
+        public QueryGetSingleOrder(int orderID)
+        {
+            OrderID = orderID;
+        }
     }
 }

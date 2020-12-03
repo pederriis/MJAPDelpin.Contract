@@ -28,7 +28,7 @@ namespace MJAPDelpin.Contract.Edge.Controllers
         [HttpGet("{id}", Name = "Get")]
         public async Task<IActionResult> Get(int id)
         {
-            var query = new QueryGetSingleOrder();
+            var query = new QueryGetSingleOrder(id);
             var result = await _mediator.Send(query);
             return Ok(result);
         }

@@ -119,5 +119,52 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             }
         }
 
+        public bool CheckIfCustomerExist(int customerID)
+        {
+
+
+
+            string query = $"SELECT COUNT(1) as count FROM Customers WHERE id={customerID} ";
+
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
+                conn.Open();
+                int result = (int)command.ExecuteScalar();
+
+                if (result!=0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+        }
+
+        public bool CheckIfRessourceExist(int ressourceID)
+        {
+
+            string query = $"SELECT COUNT(*) FROM Ressources WHERE id = {ressourceID}";
+
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
+                conn.Open();
+                int result = (int)command.ExecuteScalar();
+
+                if (result != 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+
+        }
     }
 }

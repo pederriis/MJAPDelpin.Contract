@@ -21,7 +21,7 @@ namespace MJAPDelpin.Contract.Application.Handlers.Query
         public async Task<List<Order>> Handle(QueryGetAllOrders request, CancellationToken cancellationToken)
         {
             List<Order> result =  await storeQuery.GetAllOrders();
-            return result.Select( oder => oder).ToList();
+            return result.Select( order => order).ToList();
         }
     }
 }
