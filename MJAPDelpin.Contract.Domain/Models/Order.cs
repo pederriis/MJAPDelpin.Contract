@@ -16,7 +16,7 @@ namespace MJAPDelpin.Contract.Domain.Models
 
         public Order(int _id, int _customerId, List<int> _ressourceId, DateTime _creationdate, decimal _totalPrice)
         {
-            RessourcesId = new List<int>();
+            RessourcesId = _ressourceId;
             ID = _id;
             CustomerId = _customerId;
             CreationDate = _creationdate;
