@@ -16,6 +16,10 @@ namespace MJAPDelpin.Contract.Application.Interface
         public void InsertResourceInDataBase(DTORessource ressource);
 
         public void UpdataResourceInDataBase(DTORessource resource);
-        
+
+        public bool CheckIfCustomerExist(int orderID);
+
+        public bool CheckIfRessourceExist(int ressourceID);
+
     }
 }

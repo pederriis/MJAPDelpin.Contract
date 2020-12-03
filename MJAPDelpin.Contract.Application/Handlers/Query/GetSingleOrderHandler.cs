@@ -20,7 +20,7 @@ namespace MJAPDelpin.Contract.Application.Handlers.Query
         }
         public async Task<Order> Handle(QueryGetSingleOrder request, CancellationToken cancellationToken)
         {
-            Order result = await storeQuery.GetOrder(2);
+            Order result = await storeQuery.GetOrder(request.OrderID);
             return result;
         }
     }

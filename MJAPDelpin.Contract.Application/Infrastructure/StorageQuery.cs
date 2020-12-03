@@ -56,17 +56,23 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             connection.Open();
 
             List<Order> orderList = new List<Order>();
-            //using (SqlDataReader reader = command.ExecuteReader())
+            using (SqlDataReader reader = command.ExecuteReader())
 
-            //    while (reader.Read())
-            //    {
-            //        DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
-            //        List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
+                while (reader.Read())
+                {
+                    DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
+                    List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
+                    List<int> ressourceIntList = new List<int>();
 
-            //        Order order= new Order((int)reader["orderid"], customer, (DateTime)reader["orderdate"],ressourceList );
+                    foreach (DTORessource res in ressourceList)
+                    {
+                        ressourceIntList.Add(res.RessourceId);
+                    }
+
+                    Order order= new Order((int)reader["orderid"], customer.CustomerId, ressourceIntList, (DateTime)reader["orderdate"],Convert.ToInt32( reader["ordertotalprice"]) );
                    
-            //        orderList.Add(order);
-            //    }
+                    orderList.Add(order);
+                }
     
             return orderList;
         };
@@ -75,22 +81,32 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
         private Func<string, Order> orderDelegateSingle = (string query) =>
         {
+         
+
             SqlConnection connection = new SqlConnection(GetConnectionString());
 
             SqlCommand command = new SqlCommand(query, connection);
             connection.Open();
             List <DTORessource> ressorces= new List<DTORessource>();
             Order order = null;
-            //using (SqlDataReader reader = command.ExecuteReader())
+            using (SqlDataReader reader = command.ExecuteReader())
 
-            //    while (reader.Read())
-            //    {
-            //        DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
-            //        List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
+                while (reader.Read())
+                {
+                    DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
+                    List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
 
-            //         order = new Order((int)reader["orderid"], customer, (DateTime)reader["orderdate"], ressourceList);
+                    List<int> ressourceIntList = new List<int>();
 
-            //    }
+                    foreach (DTORessource res in ressourceList)
+                    {
+                        ressourceIntList.Add(res.RessourceId);
+                    }
+
+                    Order tmporder = new Order((int)reader["orderid"], customer.CustomerId, ressourceIntList, (DateTime)reader["orderdate"], Convert.ToInt32( reader["ordertotalprice"]));
+
+                    order = tmporder;
+                }
 
 
 
@@ -100,6 +116,9 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
         private static List<DTORessource> GetRessourcesFromRessorceOrderID(int ressourceOrderID)
         {
+            
+
+
             SqlConnection connection = new SqlConnection(GetConnectionString());
 
             string query = "select Ressources.Id as ressourceid, "
