@@ -10,7 +10,7 @@ namespace MJAPDelpin.Contract.Application.Interface
     public interface IStorageCommand
     {
          Task<String> InsertOrder(CreateOrderCommand cmd);
-         Task<Order> UpdateOrder();
+         Task<String> UpdateOrder(UpdateOrderCommand cmd);
          
     }
 }

@@ -56,17 +56,17 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             connection.Open();
 
             List<Order> orderList = new List<Order>();
-            using (SqlDataReader reader = command.ExecuteReader())
+            //using (SqlDataReader reader = command.ExecuteReader())
 
-                while (reader.Read())
-                {
-                    DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
-                    List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
+            //    while (reader.Read())
+            //    {
+            //        DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
+            //        List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
 
-                    Order order= new Order((int)reader["orderid"], customer, (DateTime)reader["orderdate"],ressourceList );
+            //        Order order= new Order((int)reader["orderid"], customer, (DateTime)reader["orderdate"],ressourceList );
                    
-                    orderList.Add(order);
-                }
+            //        orderList.Add(order);
+            //    }
     
             return orderList;
         };
@@ -81,16 +81,16 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             connection.Open();
             List <DTORessource> ressorces= new List<DTORessource>();
             Order order = null;
-            using (SqlDataReader reader = command.ExecuteReader())
+            //using (SqlDataReader reader = command.ExecuteReader())
 
-                while (reader.Read())
-                {
-                    DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
-                    List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
+            //    while (reader.Read())
+            //    {
+            //        DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
+            //        List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
 
-                     order = new Order((int)reader["orderid"], customer, (DateTime)reader["orderdate"], ressourceList);
+            //         order = new Order((int)reader["orderid"], customer, (DateTime)reader["orderdate"], ressourceList);
 
-                }
+            //    }
 
 
 

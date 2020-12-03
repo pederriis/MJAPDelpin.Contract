@@ -7,33 +7,65 @@ using System.Threading.Tasks;
 using MJAPDelpin.Contract.Application.Interface;
 using MJAPDelpin.Contract.Application.Requests.Command;
 
+
 namespace MJAPDelpin.Contract.Application.Infrastructure
 {
     public class StorageCommand : IStorageCommand
     {
+        private IDatabaseLogic _databaseLogic;
         private static readonly string Conn = Utillities.ConnectionString;
+
+        public StorageCommand()
+        {
+            _databaseLogic = new SQLDatabaseLogic();
+            
+        }
 
         private static SqlConnection getConnection()
         {
             return new SqlConnection(Conn);
         }
+
         public Task<String> InsertOrder(CreateOrderCommand request)
         {
+            if (_databaseLogic.)
+            {
+                
+            }
             return Task.FromResult(addOrderToDatabase(request));
 
             
 
-            // Hvad mangler?
-            //1. lav query streng 2. lav en add ressourceorder to database i denne her klasse.
+            // lav en add ressourceorder to database i denne her klasse.
 
-            //insert order i databasen.
         }
 
-
-        public Task<Order> UpdateOrder()
+        public Task<String> UpdateOrder(UpdateOrderCommand request)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(updateOrderInDatabase(request));
         }
+
+
+        private Func<UpdateOrderCommand, string> updateOrderInDatabase = (UpdateOrderCommand cmd) =>
+        {
+            string query = $"Update Orders" +
+                           $"set TotalPrice = {cmd.TotalPrice}," +
+                           $"where Id ={cmd.Id} ";
+
+            SqlCommand Command = new SqlCommand(query, getConnection());
+            Command.Connection.Open();
+            int result = Command.ExecuteNonQuery();
+            Command.Connection.Close();
+            if (result < 0)
+            {
+                return "Error Updating data in database";
+                //evt. tilføj en exception mediatr her, som kan sende en error videre til en requesthandler.
+            }
+            else
+            {
+                return "Update executed in database";
+            }
+        };
 
 
 
