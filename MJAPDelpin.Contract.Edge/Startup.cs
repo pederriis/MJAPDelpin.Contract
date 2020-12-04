@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-//using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -20,7 +19,6 @@ using MJAPDelpin.Contract.Application.Requests.Command;
 using MJAPDelpin.Contract.Application.Requests.Query;
 using MJAPDelpin.Contract.Domain.Models;
 using MJAPDelpin.Contract.Edge.Mapping;
-using MJAPDelpin.Contract.Application.Handlers;
 using MJAPDelpin.Contract.Application.Handlers.Command;
 
 namespace MJAPDelpin.Contract.Edge
@@ -48,15 +46,25 @@ namespace MJAPDelpin.Contract.Edge
                 });
             });
 
-
             services.AddControllers();
-            services.AddSingleton<IMapper, MockMapper>();
             services.AddSingleton<IStorageCommand, StorageCommand>();
-            services.AddSingleton<IRequestHandler<CreateOrderCommand, string>, CreateOrderHandler>();
-            services.AddSingleton<IRequestHandler<UpdateOrderCommand, string>, UpdateOrderHandler>();
+            // services.AddSingleton<IOrderQueryRepository, OrderQueryRepository>();
+            services.AddSingleton<IMapper, MockMapper>();
             services.AddSingleton<IStorageQuery, StorageQuery>();
+            services.AddSingleton<IRequestHandler<CreateOrderCommand, string>, CreateOrderHandler>();
+            services.AddSingleton<IRequestHandler<UpdateOrderCommand,string>,UpdateOrderHandler>();
             services.AddSingleton<IRequestHandler<QueryGetAllOrders, List<Order>>, GetAllOrdersHandler>();
+            services.AddSingleton<IRequestHandler<QueryGetSingleOrder, Order>, GetSingleOrderHandler>();
             services.AddMediatR(typeof(Startup));
+
+            //services.AddControllers();
+            //services.AddSingleton<IMapper, MockMapper>();
+            //services.AddSingleton<IStorageCommand, StorageCommand>();
+            //services.AddSingleton<IRequestHandler<CreateOrderCommand, string>, CreateOrderHandler>();
+            //services.AddSingleton<IRequestHandler<UpdateOrderCommand, string>, UpdateOrderHandler>();
+            //services.AddSingleton<IStorageQuery, StorageQuery>();
+            //services.AddSingleton<IRequestHandler<QueryGetAllOrders, List<Order>>, GetAllOrdersHandler>();
+            //services.AddMediatR(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

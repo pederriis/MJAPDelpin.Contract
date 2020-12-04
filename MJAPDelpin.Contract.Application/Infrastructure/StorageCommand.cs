@@ -12,7 +12,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 {
     public class StorageCommand : IStorageCommand
     {
-        private IDatabaseLogic _databaseLogic;
+        private static IDatabaseLogic _databaseLogic;
         private static readonly string Conn = Utillities.ConnectionString;
 
         public StorageCommand()
@@ -28,13 +28,16 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
         public Task<String> InsertOrder(CreateOrderCommand request)
         {
-            if (_databaseLogic.)
+            if (!_databaseLogic.CheckIfCustomerExist(request.CustomerId))
             {
-                
+                return Task<string>.Factory.StartNew(() => "Hovsa, den kunde findes ikke.");
+                // throw new Exception("Error occured while checking if customer exist");
             }
-            return Task.FromResult(addOrderToDatabase(request));
 
-            
+            string Result = addOrderToDatabase(request);
+            addRessourceOrderToDatabase(request);
+            return Task.FromResult(Result);
+
 
             // lav en add ressourceorder to database i denne her klasse.
 
@@ -48,8 +51,8 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
         private Func<UpdateOrderCommand, string> updateOrderInDatabase = (UpdateOrderCommand cmd) =>
         {
-            string query = $"Update Orders" +
-                           $"set TotalPrice = {cmd.TotalPrice}," +
+            string query = $"Update Orders " +
+                           $"set TotalPrice = {cmd.TotalPrice} " +
                            $"where Id ={cmd.Id} ";
 
             SqlCommand Command = new SqlCommand(query, getConnection());
@@ -72,9 +75,11 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
         /*Private methods below*/
         private Func<CreateOrderCommand, string> addOrderToDatabase = (CreateOrderCommand cmd) =>
         {
-            string query = $"Insert into orders(CustomerId,Date,TotalPrice)"
+            
+            string query = $"SET IDENTITY_INSERT Orders ON Insert into orders(Id,CustomerId,Date,TotalPrice)"
                            + "values"
-                           + $"({cmd.CustomerId},"
+                           + $"({cmd.Id},"
+                           + $"{cmd.CustomerId},"
                            + $"{DateTime.Now.ToShortDateString()},"
                            + $"{cmd.TotalPrice})";
 
@@ -88,6 +93,31 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             if (result < 0)
                 return "Error inserting data into Database!";
             else 
+                return "nu er der vistnok skrevet en Ordre i databasen";
+
+        };
+        private Func<CreateOrderCommand, string> addRessourceOrderToDatabase = (CreateOrderCommand cmd) =>
+        {
+            int result=0;
+            foreach (var Ressources in cmd.RessourceId)
+            {
+                if (!_databaseLogic.CheckIfRessourceExist(Ressources))
+                {
+                    throw new Exception("ressources does not exist");
+                }
+            string query = $"Insert into RessourceOrders(OrderId,RessourceId)"
+                           + "values"
+                           + $"({cmd.Id},"
+                           + $"{Ressources})";
+             SqlCommand command = new SqlCommand(query, getConnection());
+             command.Connection.Open();
+             result = command.ExecuteNonQuery();
+             command.Connection.Close();
+            }
+            // Check Error
+            if (result < 0)
+                return "Error inserting data into Database!";
+            else
                 return "nu er der vistnok skrevet en kunde i databasen";
 
         };

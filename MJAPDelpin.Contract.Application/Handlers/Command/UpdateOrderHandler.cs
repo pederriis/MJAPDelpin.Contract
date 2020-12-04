@@ -11,9 +11,9 @@ namespace MJAPDelpin.Contract.Application.Handlers.Command
 {
     public class UpdateOrderHandler:IRequestHandler<UpdateOrderCommand,String>
     {
-        private IStorageCommand _storageCommand;
+        private readonly IStorageCommand _storageCommand;
 
-        UpdateOrderHandler(IStorageCommand storageCommand)
+        public UpdateOrderHandler(IStorageCommand storageCommand)
         {
             _storageCommand = storageCommand;
         }

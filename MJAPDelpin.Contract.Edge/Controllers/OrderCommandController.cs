@@ -30,7 +30,7 @@ namespace MJAPDelpin.Contract.Edge.Controllers
         }
 
         // PUT api/<OrderCommandController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
         {
             //det samme her med postmetode bare for update i stedet for. 
