@@ -159,8 +159,10 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
             using (SqlCommand command = new SqlCommand(query, conn))
             {
+                
                 conn.Open();
                 int result = (int)command.ExecuteScalar();
+                conn.Close();
 
                 if (result!=0)
                 {
@@ -170,7 +172,6 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                 {
                     return false;
                 }
-
             }
 
         }
@@ -183,7 +184,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             {
                 conn.Open();
                 int result = (int)command.ExecuteScalar();
-
+                conn.Close();
                 if (result != 0)
                 {
                     return true;

@@ -24,14 +24,18 @@ namespace MJAPDelpin.Contract.Edge.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
         {
+            //lav en post i stedet for en send, hvor mediatr sender til 2 request handlers nemlig en til at indsætte i ordre og en til ressourceorders.
             var result = await _mediator.Send(command);
             return Ok(result);
         }
 
         // PUT api/<OrderCommandController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        public async Task<IActionResult> UpdateOrder([FromBody] UpdateOrderCommand command)
         {
+            //det samme her med postmetode bare for update i stedet for. 
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
 
         // DELETE api/<OrderCommandController>/5
