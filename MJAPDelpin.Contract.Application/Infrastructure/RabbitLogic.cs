@@ -27,11 +27,11 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
             database = new SQLDatabaseLogic();
 
-            Thread customerCreate = new Thread(SetUpQueue);
-            customerCreate.Start("customercreate_queue");
+            //Thread customerCreate = new Thread(SetUpQueue);
+            //customerCreate.Start("customercreate_queue");
 
-            Thread customerUpdate = new Thread(SetUpQueue);
-            customerUpdate.Start("customerupdate_queue");
+            //Thread customerUpdate = new Thread(SetUpQueue);
+            //customerUpdate.Start("customerupdate_queue");
 
             Thread ResourceCreate = new Thread(SetUpQueue);
             ResourceCreate.Start("ressourceCreate_queue");
@@ -68,14 +68,14 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
                     switch (queueType)
                     {
-                        case "customercreate_queue":
-                            DTOCustomer insertCustomer =Mapper.ConvertFromJsonToDTOCustomer(jsonstring);
-                            database.InsertCustomerIntoDatabase(insertCustomer);
-                            break;
-                        case "customerupdate_queue":
-                            DTOCustomer upateCustomer =Mapper.ConvertFromJsonToDTOCustomer(jsonstring);
-                            database.UpdateCustomerInDatabase(upateCustomer);
-                            break;
+                        //case "customercreate_queue":
+                        //    DTOCustomer insertCustomer =Mapper.ConvertFromJsonToDTOCustomer(jsonstring);
+                        //    database.InsertCustomerIntoDatabase(insertCustomer);
+                        //    break;
+                        //case "customerupdate_queue":
+                        //    DTOCustomer upateCustomer =Mapper.ConvertFromJsonToDTOCustomer(jsonstring);
+                        //    database.UpdateCustomerInDatabase(upateCustomer);
+                        //    break;
                         case "ressourceCreate_queue":
                             DTORessource createRessource = Mapper.ConvertFromJsonToDTOResource(jsonstring);
                             database.InsertResourceInDataBase(createRessource);

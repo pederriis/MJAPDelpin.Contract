@@ -8,17 +8,16 @@ namespace MJAPDelpin.Contract.Domain.DTO
     {
        public int RessourceId { get; set; }
         public string RessourceModelString { get; set; }
-
         public int Price { get; set; }
-        public bool RessourceState { get; set; }
+        public bool IsAvailable { get; set; }
 
 
-       public DTORessource(int ressourceid, string ressourceModelString, bool ressourceState, int price)
+       public DTORessource(int ressourceid, string ressourceModelString, bool isAvailable, int price)
         {
             RessourceId = ressourceid;
             RessourceModelString = ressourceModelString;
             Price = price;
-            RessourceState = ressourceState;
+            IsAvailable = isAvailable;
 
         }
     }

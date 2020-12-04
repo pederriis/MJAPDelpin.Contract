@@ -87,12 +87,14 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
             try
             {
-                string query = $"insert into Ressources(Id, Modelstring, Price) values(@id, @modelstring, @price)";
+                string query = $"insert into Ressources(Id, Modelstring, isAvailable,  Price) " +
+                                $"values(@id, @modelstring, @isAvailable,  @price)";
 
                 using (SqlCommand command = new SqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("@id", resource.RessourceId);
                     command.Parameters.AddWithValue("@modelstring", resource.RessourceModelString);
+                    command.Parameters.AddWithValue("@isAvailable", resource.IsAvailable);
                     command.Parameters.AddWithValue("@price", resource.Price);
 
                     conn.Open();
@@ -175,7 +177,6 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
         public bool CheckIfRessourceExist(int ressourceID)
         {
-
             string query = $"SELECT COUNT(*) FROM Ressources WHERE id = {ressourceID}";
 
             using (SqlCommand command = new SqlCommand(query, conn))

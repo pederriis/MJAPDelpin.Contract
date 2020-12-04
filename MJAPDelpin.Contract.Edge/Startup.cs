@@ -50,16 +50,24 @@ namespace MJAPDelpin.Contract.Edge
                 });
             });
 
-
             services.AddControllers();
             services.AddSingleton<IStorageCommand, StorageCommand>();
-           // services.AddSingleton<IOrderQueryRepository, OrderQueryRepository>();
+            // services.AddSingleton<IOrderQueryRepository, OrderQueryRepository>();
             services.AddSingleton<IMapper, MockMapper>();
             services.AddSingleton<IStorageQuery, StorageQuery>();
             services.AddSingleton<IRequestHandler<CreateOrderCommand, string>, CreateOrderHandler>();
             services.AddSingleton<IRequestHandler<QueryGetAllOrders, List<Order>>, GetAllOrdersHandler>();
             services.AddSingleton<IRequestHandler<QueryGetSingleOrder, Order>, GetSingleOrderHandler>();
             services.AddMediatR(typeof(Startup));
+
+            //services.AddControllers();
+            //services.AddSingleton<IOrderQueryRepository, OrderQueryRepository>();
+            //services.AddSingleton<IMapper, MockMapper>();
+            //services.AddSingleton<IStorageQuery, StorageQuery>();
+            //services.AddSingleton<IRequestHandler<CreateOrderCommand, string>, CreateOrderHandler>();
+            //services.AddSingleton<IRequestHandler<QueryGetAllOrders, List<Order>>, GetAllOrdersHandler>();
+            //services.AddSingleton<IRequestHandler<QueryGetSingleOrder, Order>, GetSingleOrderHandler>();
+            //services.AddMediatR(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

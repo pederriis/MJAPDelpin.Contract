@@ -33,6 +33,8 @@ namespace MJAPDelpin.Contract.Edge.Controllers
             return Ok(result);
         }
 
+
+
         //IQueryService QueryService;
 
         //public OrderQueryController(IQueryService queryService)
