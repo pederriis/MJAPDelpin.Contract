@@ -27,19 +27,19 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
             database = new SQLDatabaseLogic();
 
-            //Thread customerCreate = new Thread(SetUpQueue);
-            //customerCreate.Start("customercreate_queue");
+            Thread customerCreate = new Thread(SetUpQueue);
+            customerCreate.Start("customercreate_queue");
 
-            //Thread customerUpdate = new Thread(SetUpQueue);
-            //customerUpdate.Start("customerupdate_queue");
+            Thread customerUpdate = new Thread(SetUpQueue);
+            customerUpdate.Start("customerupdate_queue");
 
-            //Thread ResourceCreate = new Thread(SetUpQueue);
-            //ResourceCreate.Start("ressourceCreate_queue");
+            Thread ResourceCreate = new Thread(SetUpQueue);
+            ResourceCreate.Start("ressourceCreate_queue");
 
-            //Thread ResourceUpdate = new Thread(SetUpQueue);
-            //ResourceUpdate.Start("ressourceUpdate_queue");
+            Thread ResourceUpdate = new Thread(SetUpQueue);
+            ResourceUpdate.Start("ressourceUpdate_queue");
 
-          
+
 
         }
         private void SetUpQueue(object queueType)
