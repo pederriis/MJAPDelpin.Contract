@@ -78,11 +78,11 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                         //    break;
                         case "ressourceCreate_queue":
                             DTORessource createRessource = Mapper.ConvertFromJsonToDTOResource(jsonstring);
-                            database.InsertResourceInDataBase(createRessource);
+                            database.InsertRessourceInDataBase(createRessource);
                             break;
                         case "ressourceUpdate_queue":
                             DTORessource updateRessource = Mapper.ConvertFromJsonToDTOResource(jsonstring);
-                            database.UpdataResourceInDataBase(updateRessource);
+                            database.UpdataRessourceInDataBase(updateRessource);
                             break;
                         default:
                             // code block
@@ -98,7 +98,6 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                 channel.BasicConsume(queue: (string)queueType,
                                      autoAck: false,
                                      consumer: consumer);
-               // Console.ReadLine();
             }
         }
 

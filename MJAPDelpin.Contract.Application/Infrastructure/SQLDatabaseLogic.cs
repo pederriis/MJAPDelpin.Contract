@@ -81,7 +81,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
         }
 
-        public void InsertResourceInDataBase(DTORessource resource)
+        public void InsertRessourceInDataBase(DTORessource resource)
         {
             //skriv en rosurce ind i databasen
 
@@ -93,7 +93,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                 using (SqlCommand command = new SqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("@id", resource.RessourceId);
-                    command.Parameters.AddWithValue("@modelstring", resource.RessourceModelString);
+                    command.Parameters.AddWithValue("@modelstring", resource.ModelString);
                     command.Parameters.AddWithValue("@isAvailable", resource.IsAvailable);
                     command.Parameters.AddWithValue("@price", resource.Price);
 
@@ -117,36 +117,39 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
               
         }
 
-        public void UpdataResourceInDataBase(DTORessource resource)
+        public void UpdataRessourceInDataBase(DTORessource resource)
         {
             //Opdater resource i databasen
 
             try
             {
-                string query = $"update Ressources set price = @price where id = @id";
+                string query = $"update Ressources set " +
+                    $"IsAvailable = @IsAvailable, " +
+                    $"Modelstring = @Modelstring, " +
+                    $"Price = @Price " +
+                    $"where id = @id";
 
                 using (SqlCommand command = new SqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("@id", resource.RessourceId);
-
-                    command.Parameters.AddWithValue("@price", resource.Price);
+                    command.Parameters.AddWithValue("@Modelstring", resource.ModelString);
+                    command.Parameters.AddWithValue("@Price", resource.Price);
+                    command.Parameters.AddWithValue("@IsAvailable", resource.IsAvailable);
 
                     conn.Open();
                     int result = command.ExecuteNonQuery();
                     conn.Close();
 
                     // Check Error
-                    if (result < 0)
+                    if (result < 0) 
                         Console.WriteLine("Error inserting data into Database!");
-                    else
-                    {
-                        Console.WriteLine("nu er der vistnok skrevet en resurse i databasen");
-                    }
+                    else 
+                        Console.WriteLine("nu er der vistnok skrevet en ressourse i databasen");
                 }
             }
             catch
             {
-                Console.WriteLine("Ressurse ikke opdateret i SQL-databasen");
+                Console.WriteLine("Ressourse ikke opdateret i SQL-databasen");
             }
         }
 

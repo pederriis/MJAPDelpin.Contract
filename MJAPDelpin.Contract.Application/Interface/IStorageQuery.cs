@@ -1,4 +1,5 @@
-﻿using MJAPDelpin.Contract.Domain.Models;
+﻿using MJAPDelpin.Contract.Domain.DTO;
+using MJAPDelpin.Contract.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +11,6 @@ namespace MJAPDelpin.Contract.Application.Interface
     {
         Task<Order> GetOrder(int id);
         Task<List<Order>> GetAllOrders();
+        Task<List<DTORessource>> GetAvailableRessources();
     }
 }

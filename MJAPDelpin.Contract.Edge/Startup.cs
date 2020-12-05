@@ -24,6 +24,7 @@ using MJAPDelpin.Contract.Edge.Mapping;
 //using MJAPDelpin.Contract.Edge.Repositories;
 using MJAPDelpin.Contract.Application.Handlers;
 using MJAPDelpin.Contract.Application.Handlers.Command;
+using MJAPDelpin.Contract.Domain.DTO;
 
 namespace MJAPDelpin.Contract.Edge
 {
@@ -59,6 +60,7 @@ namespace MJAPDelpin.Contract.Edge
             services.AddSingleton<IRequestHandler<UpdateOrderCommand,string>,UpdateOrderHandler>();
             services.AddSingleton<IRequestHandler<QueryGetAllOrders, List<Order>>, GetAllOrdersHandler>();
             services.AddSingleton<IRequestHandler<QueryGetSingleOrder, Order>, GetSingleOrderHandler>();
+            services.AddSingleton<IRequestHandler<QueryAvailableRessources, List<DTORessource>>, GetAvailableRessourcesHandler>();
             services.AddMediatR(typeof(Startup));
 
             //services.AddControllers();

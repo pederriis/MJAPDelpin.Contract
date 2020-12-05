@@ -32,7 +32,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             bool isAvailable = (bool)jData["IsAvailable"]["Value"];
             int price = (int)jData["Price"]["Value"];
 
-            return new DTORessource(ressourceID, ressorceModelString, isAvailable, price);
+            return new DTORessource(ressourceID, ressorceModelString, price, isAvailable);
         }
     }
 }
