@@ -24,7 +24,6 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
         private RabbitLogic() 
         {
             factory = new ConnectionFactory() { HostName = "localhost" };
-
             database = new SQLDatabaseLogic();
 
             Thread customerCreate = new Thread(SetUpQueue);
@@ -39,8 +38,6 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             Thread ResourceUpdate = new Thread(SetUpQueue);
             ResourceUpdate.Start("ressourceUpdate_queue");
 
-
-
         }
 
         private void SetUpQueue(object queueType)
@@ -52,7 +49,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             var connection = factory.CreateConnection();
             var channel = connection.CreateModel();
                
-            {
+            
                 channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
 
                 Console.WriteLine(" [*] Waiting for messages.");
@@ -98,7 +95,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                 channel.BasicConsume(queue: (string)queueType,
                                      autoAck: false,
                                      consumer: consumer);
-            }
+            
         }
 
        
