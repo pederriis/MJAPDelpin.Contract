@@ -24,7 +24,8 @@ namespace MJAPDelpin.Contract.Edge.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderCommand command)
         {
-            //lav en post i stedet for en send, hvor mediatr sender til 2 request handlers nemlig en til at indsætte i ordre og en til ressourceorders.
+            //lav en post i stedet for en send, hvor mediatr sender til 2 request handlers 
+            //nemlig en til at indsætte i ordre og en til ressourceorders.
             var result = await _mediator.Send(command);
             return Ok(result);
         }
