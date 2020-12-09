@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
+using System.Threading.Tasks;
 using MJAPDelpin.Contract.Application.Interface;
 using MJAPDelpin.Contract.Domain;
 using MJAPDelpin.Contract.Domain.DTO;
@@ -200,5 +201,25 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             }
 
         }
+
+        public bool CheckAvailability(int ressourceID)
+        {
+            string query = $"Select IsAvailable" +
+                           $" from Ressources " +
+                           $"where Id = @id";
+
+            using (SqlCommand command = new SqlCommand(query, conn))
+            {
+                command.Parameters.AddWithValue("@id", ressourceID);
+                command.Connection.Open();
+                int result = command.ExecuteNonQuery();
+                command.Connection.Close();
+                if (result != 0)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
     }
 }

@@ -67,7 +67,7 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
 
                 while (reader.Read())
                 {
-                    DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
+                    DTOCustomer customer = new DTOCustomer((int)reader["customerid"], (string) reader["customername"]);
                     List<DTORessource> ressourceList = GetRessourcesFromRessorceOrderID((int)reader["orderid"]);
                     List<int> ressourceIntList = new List<int>();
 
@@ -114,11 +114,10 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             return order;
         };
         
-        private Func<string, List<DTORessource>> RessourceDelegateGetAvailable = (string query) =>
+        private Func<string, List<DTORessource>> RessourceDelegateGetAvailable = (string query) => 
         {
             SqlConnection connection = new SqlConnection(GetConnectionString());
-
-            using (SqlCommand command = new SqlCommand(query, connection))
+            using (SqlCommand command = new SqlCommand(query, connection)) 
             {
                 List<DTORessource> ressourceList = new List<DTORessource>();
                 command.Connection.Open();
@@ -135,15 +134,16 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
             }
         };
 
-        private static List<DTORessource> GetRessourcesFromRessorceOrderID(int ressourceOrderID)
+        private static Func<int, List<DTORessource>> GetRessourcesFromRessorceOrderID = (int ressourceOrderID) =>
         {
             SqlConnection connection = new SqlConnection(GetConnectionString());
 
-            string query = "select Ressources.Id as ressourceid, "
-                + "Ressources.Modelstring as ressourcemodelstring, "
-                + "Ressources.Price as ressourceprice from RessourceOrders "
-                + "join Ressources on RessourceOrders.RessourceId = Ressources.Id "
-                + $"where orderid = {ressourceOrderID}";
+            string query = $"select Ressources.Id as ressourceid, " +
+                $"Ressources.Modelstring as ressourcemodelstring ," +
+                $" Ressources.Price as ressourceprice ," +
+                $" Ressources.IsAvailable as IsAvailable " +
+                $"from RessourceOrders " +
+                $"join Ressources on RessourceOrders.RessourceId = Ressources.Id where orderid = {ressourceOrderID}";
 
             SqlCommand command = new SqlCommand(query, connection);
             connection.Open();
@@ -154,18 +154,17 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                 while (reader.Read())
                 {
                     DTORessource ressource = new DTORessource((int)reader["ressourceid"],
-                                                               (string)reader["modelstring"],
-                                                                Convert.ToInt32(reader["Price"]),
-                                                               (bool)reader["IsAvailable"]);//dette skal fixes så den får den rigtige bool
+                                                               (string)reader["ressourcemodelstring"],
+                                                                Convert.ToInt32(reader["ressourceprice"]),
+                                                               (bool)reader["IsAvailable"]);
                     ressorceList.Add(ressource);
                 }
 
             return ressorceList;
-        }
+        };
 
         /*Possible refactor option, generic delegates
-            private delegate TResult Func<in T , out TResult> (  T arg );
+            private delegate TResult Func<in T, out TResult>(T arg);
         */
-
     }
 }

@@ -18,7 +18,7 @@ namespace MJAPDelpin.Contract.Application.Handlers.Command
             _storageCommand = storageCommand;
         }
 
-        public async Task<String> Handle(UpdateOrderCommand request, CancellationToken token)
+        public async Task<string> Handle(UpdateOrderCommand request, CancellationToken token)
         {
             return await _storageCommand.UpdateOrder(request);
         }

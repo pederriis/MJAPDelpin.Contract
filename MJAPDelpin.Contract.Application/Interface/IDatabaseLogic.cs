@@ -3,6 +3,7 @@ using MJAPDelpin.Contract.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MJAPDelpin.Contract.Application.Interface
 {
@@ -20,6 +21,8 @@ namespace MJAPDelpin.Contract.Application.Interface
         public bool CheckIfCustomerExist(int orderID);
 
         public bool CheckIfRessourceExist(int ressourceID);
+
+        public bool CheckAvailability(int ressourceID);
 
     }
 }
