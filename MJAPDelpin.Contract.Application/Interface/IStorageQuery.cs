@@ -12,5 +12,6 @@ namespace MJAPDelpin.Contract.Application.Interface
         Task<Order> GetOrder(int id);
         Task<List<Order>> GetAllOrders();
         Task<List<DTORessource>> GetAvailableRessources();
+        Task< DTOCustomer> GetSingleCustomerFromOrderID(int oderid);
     }
 }

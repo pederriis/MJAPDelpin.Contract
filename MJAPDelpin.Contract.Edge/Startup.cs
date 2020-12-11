@@ -20,7 +20,7 @@ using MJAPDelpin.Contract.Application.Requests.Command;
 using MJAPDelpin.Contract.Application.Requests.Query;
 using MJAPDelpin.Contract.Domain.Models;
 //using MJAPDelpin.Contract.Edge.InfrastructureInterfaces;
-using MJAPDelpin.Contract.Edge.Mapping;
+//using MJAPDelpin.Contract.Edge.Mapping;
 //using MJAPDelpin.Contract.Edge.Repositories;
 using MJAPDelpin.Contract.Application.Handlers;
 using MJAPDelpin.Contract.Application.Handlers.Command;
@@ -54,12 +54,13 @@ namespace MJAPDelpin.Contract.Edge
             services.AddControllers();
             services.AddSingleton<IStorageCommand, StorageCommand>();
            // services.AddSingleton<IOrderQueryRepository, OrderQueryRepository>();
-            services.AddSingleton<IMapper, MockMapper>();
+            //services.AddSingleton<IMapper, MockMapper>();
             services.AddSingleton<IStorageQuery, StorageQuery>();
             services.AddSingleton<IRequestHandler<CreateOrderCommand, string>, CreateOrderHandler>();
             services.AddSingleton<IRequestHandler<UpdateOrderCommand,string>,UpdateOrderHandler>();
             services.AddSingleton<IRequestHandler<QueryGetAllOrders, List<Order>>, GetAllOrdersHandler>();
             services.AddSingleton<IRequestHandler<QueryGetSingleOrder, Order>, GetSingleOrderHandler>();
+            services.AddSingleton<IRequestHandler<QueryGetSingleCustomerFromOrderID, DTOCustomer>, GetSingleCustomerFromOrderIDHandler>();
             services.AddSingleton<IRequestHandler<QueryAvailableRessources, List<DTORessource>>, GetAvailableRessourcesHandler>();
             services.AddMediatR(typeof(Startup));
 

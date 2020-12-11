@@ -40,9 +40,9 @@ namespace MJAPDelpin.Contract.Edge.Controllers
         }
 
         // DELETE api/<OrderCommandController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

@@ -46,8 +46,19 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                     $"from ressources " +
                     $"where IsAvailable = 1"));
         }
+        
+        public Task<DTOCustomer> GetSingleCustomerFromOrderID(int id)
+        {
+            return Task.FromResult(
+                CustomerDelegateSingle(
+                    "select customers.Id as customerid, "
+                    + "Customers.Name as customername "
+                    + "from customers "
+                    + "join orders on Customers.Id = Orders.CustomerId "
+                    + $"where orders.Id = {id} "
 
-
+                    ));
+        }
 
         /*----------------------------PRIVATE-METHODS-------------------------------------------*/
         private static string GetConnectionString()
@@ -161,6 +172,26 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                 }
 
             return ressorceList;
+        };
+
+
+        private Func<string, DTOCustomer> CustomerDelegateSingle = (string query) =>
+        {
+            SqlConnection connection = new SqlConnection(GetConnectionString());
+
+            SqlCommand command = new SqlCommand(query, connection);
+            connection.Open();
+           
+            DTOCustomer customer = null;
+            using (SqlDataReader reader = command.ExecuteReader())
+
+                while (reader.Read())
+                {
+                     customer = new DTOCustomer((int)reader["customerid"], (string)reader["customername"]);
+                   
+                }
+
+            return customer;
         };
 
         /*Possible refactor option, generic delegates
