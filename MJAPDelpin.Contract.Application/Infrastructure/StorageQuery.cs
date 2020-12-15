@@ -60,6 +60,18 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                     ));
         }
 
+        public Task<List<DTORessource>>GetRessourcesFromOrderID(int id)
+        {
+            return Task.FromResult(RessourcesDelegateFromOrderID(
+            "select Ressources.Id as ressourceid, " 
+            +"Modelstring as ressourcemodelstring, " 
+            +"price as ressourceprise " 
+            +"from Ressources "
+            +"join RessourceOrders on RessourceOrders.RessourceId = Ressources.id "
+            +"join orders on RessourceOrders.OrderId = orders.id "
+            +$" where Orders.id = {id}"));
+        }
+
         /*----------------------------PRIVATE-METHODS-------------------------------------------*/
         private static string GetConnectionString()
         {
@@ -144,6 +156,29 @@ namespace MJAPDelpin.Contract.Application.Infrastructure
                 return ressourceList;
             }
         };
+
+        private Func<string, List<DTORessource>> RessourcesDelegateFromOrderID = (string query) =>
+        {
+            SqlConnection connection = new SqlConnection(GetConnectionString());
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                List<DTORessource> ressourceList = new List<DTORessource>();
+                command.Connection.Open();
+                using (SqlDataReader reader = command.ExecuteReader())
+                    while (reader.Read())
+                        ressourceList.Add(new
+                            DTORessource(
+                                (int)reader["ressourceid"],
+                                (string)reader["ressourcemodelstring"],
+                                Convert.ToInt32(reader["ressourceprise"]),
+                                true));
+
+                return ressourceList;
+            }
+        };
+
+
+
 
         private static Func<int, List<DTORessource>> GetRessourcesFromRessorceOrderID = (int ressourceOrderID) =>
         {

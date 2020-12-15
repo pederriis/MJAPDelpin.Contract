@@ -62,6 +62,7 @@ namespace MJAPDelpin.Contract.Edge
             services.AddSingleton<IRequestHandler<QueryGetSingleOrder, Order>, GetSingleOrderHandler>();
             services.AddSingleton<IRequestHandler<QueryGetSingleCustomerFromOrderID, DTOCustomer>, GetSingleCustomerFromOrderIDHandler>();
             services.AddSingleton<IRequestHandler<QueryAvailableRessources, List<DTORessource>>, GetAvailableRessourcesHandler>();
+            services.AddSingleton<IRequestHandler<QueryRessourcesFromOrderID, List<DTORessource>>, GetRessourcesFromOrderIDHandler>();
             services.AddMediatR(typeof(Startup));
 
             //services.AddControllers();

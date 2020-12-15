@@ -23,5 +23,14 @@ namespace MJAPDelpin.Contract.Edge.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
+        [HttpGet("{id}", Name = "GetRessourcesFromOrderId")]
+        public async Task<IActionResult> GetRessourcesFromOrderId(int id)
+        {
+            var query = new QueryRessourcesFromOrderID(id);
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
     }
 }
